@@ -3,7 +3,7 @@
     <div class="row border p-4 my-5 rounded">
       <div class="col-9">
         <form v-on:submit.prevent="handleSubmit">
-          <div class="h2 text-center text-success">Create Product</div>
+          <div class="h2 text-center text-success">{{ actionTitle }} Product</div>
           <hr />
           <div class="alert alert-danger pb-0" v-if="errorList.length > 0">
             Please fix the following errors:
@@ -86,9 +86,15 @@
           </div>
           <div class="pt-3">
             <button class="btn btn-success m-2 w-25" :disabled="isLoading">
-              <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span>Submit
+              <span v-if="isLoading" class="spinner-border spinner-border-sm me-2"></span
+              >{{ actionTitle }}
             </button>
-            <a href="/" class="btn btn-secondary m-2 w-25"> Cancel </a>
+            <router-link
+              :to="{ name: APP_ROUTE_NAMES.PRODUCT_LIST }"
+              class="btn btn-secondary m-2 w-25"
+            >
+              Cancel
+            </router-link>
           </div>
         </form>
       </div>
@@ -105,7 +111,7 @@
 </template>
 <script setup>
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
 import { useSweetAlert } from '@/utility/useSweetAlert'
 import productService from '@/services/productService'
@@ -114,11 +120,15 @@ import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 const { showSuccess } = useSweetAlert()
 
 const router = useRouter()
+const route = useRoute()
 
 const isLoading = ref(false)
 const errorList = reactive([])
-
 const categories = ref(PRODUCT_CATEGORIES)
+
+const productIdForUpdate = route.params.id
+
+const actionTitle = productIdForUpdate ? 'Update' : 'Create'
 
 const productObject = reactive({
   name: '',

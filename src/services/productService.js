@@ -32,10 +32,10 @@ const addProduct = async (newProduct) => {
 
 const updateProduct = async (id, updatedProduct) => {
   const docRef = doc(productsCollection, id)
-  const productUpdateSnapshot = await updateDoc(docRef, updatedProduct)
+  await updateDoc(docRef, updatedProduct)
   return {
-    id: productUpdateSnapshot.id,
-    ...productUpdateSnapshot.data(),
+    id: id,
+    ...updatedProduct,
   }
 }
 

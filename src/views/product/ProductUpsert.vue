@@ -191,13 +191,18 @@ async function handleSubmit() {
         bestSeller: Boolean(productObject.isBestseller),
       }
 
-      const productCreated = await productService.addProduct(productData)
-
-      showSuccess('Product created successfully')
-
       console.log('productData: ', productData)
 
-      console.log('product created: ', productCreated)
+      if (productIdForUpdate) {
+        const productUpdated = await productService.updateProduct(productIdForUpdate, productData)
+        showSuccess('Product updated successfully')
+        console.log('product updated: ', productUpdated)
+      } else {
+        const productCreated = await productService.addProduct(productData)
+        showSuccess('Product created successfully')
+        console.log('product created: ', productCreated)
+      }
+
       router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST })
     }
   } catch (error) {

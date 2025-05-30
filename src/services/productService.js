@@ -13,6 +13,14 @@ const getProducts = async () => {
   return products
 }
 
+const getProductById = async (id) => {
+  const docRef = doc(productsCollection, id)
+  const productSnapshot = await getDoc(docRef)
+  const product = { id: productSnapshot.id, ...productSnapshot.data() }
+  console.log('product: ', product)
+  return product
+}
+
 const addProduct = async (newProduct) => {
   console.log('newProduct: ', newProduct)
   const docRef = await addDoc(productsCollection, newProduct)
@@ -22,7 +30,27 @@ const addProduct = async (newProduct) => {
   }
 }
 
+const updateProduct = async (id, updatedProduct) => {
+  const docRef = doc(productsCollection, id)
+  const productUpdateSnapshot = await updateDoc(docRef, updatedProduct)
+  return {
+    id: productUpdateSnapshot.id,
+    ...productUpdateSnapshot.data(),
+  }
+}
+
+const deleteProduct = async (id) => {
+  const docRef = doc(productsCollection, id)
+  await deleteDoc(docRef)
+  return {
+    id: docRef.id,
+  }
+}
+
 export default {
   getProducts,
+  getProductById,
   addProduct,
+  updateProduct,
+  deleteProduct,
 }

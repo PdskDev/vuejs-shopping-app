@@ -85,11 +85,14 @@
                   <span class="text-muted text-center" v-else>---</span>
                 </td>
                 <td class="pe-3 text-end">
-                  <button class="btn btn-sm btn-outline-secondary m-2">
+                  <button
+                    class="btn btn-sm btn-outline-secondary m-2"
+                    @click="handleEdit(product.id)"
+                  >
                     <i class="bi bi-pencil-fill"></i> Edit
                   </button>
 
-                  <button class="btn btn-sm btn-outline-danger">
+                  <button class="btn btn-sm btn-outline-danger" @click="handleDelete(product.id)">
                     <i class="bi bi-trash3-fill"></i> Delete
                   </button>
                 </td>
@@ -103,10 +106,14 @@
 </template>
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import productService from '@/services/productService'
 import { useSweetAlert } from '@/utility/useSweetAlert'
+import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 
-const { showError } = useSweetAlert()
+const { showError, showConfirmation, showSuccess } = useSweetAlert()
+
+const router = useRouter()
 
 const products = ref([])
 const isLoading = ref(false)
@@ -123,10 +130,37 @@ const fetchProducts = async () => {
     console.log('products: ', products)
   } catch (error) {
     isLoading.value = false
-    showError('Something went wrong when fetching products')
+    await showError('Something went wrong when fetching products')
     console.log('error: ', error)
   } finally {
     isLoading.value = false
   }
+}
+
+const handleDelete = async (productId) => {
+  try {
+    const result = await showConfirmation('Are you sure you want to delete this product?')
+
+    console.log('isConfirmed: ', result.isConfirmed)
+
+    if (result.isConfirmed) {
+      isLoading.value = true
+
+      await productService.deleteProduct(productId)
+      await showSuccess(`Product deleted successfully`)
+      fetchProducts()
+
+      isLoading.value = false
+    }
+  } catch (error) {
+    isLoading.value = false
+    console.log('error: ', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const handleEdit = (productId) => {
+  router.push({ name: APP_ROUTE_NAMES.PRODUCT_UPDATE, params: { id: productId } })
 }
 </script>

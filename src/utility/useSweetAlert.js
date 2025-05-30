@@ -2,7 +2,7 @@ import Swal from 'sweetalert2'
 
 export function useSweetAlert() {
   const showAlert = async (options) => {
-    await Swal.fire(options)
+    return await Swal.fire(options)
   }
 
   const showSuccess = async (message) => {
@@ -32,7 +32,7 @@ export function useSweetAlert() {
       icon: 'warning',
       title: 'Are you sure?',
       text: message,
-      position: 'top-end',
+      position: 'center',
       showConfirmButton: true,
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

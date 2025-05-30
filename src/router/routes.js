@@ -44,6 +44,11 @@ const router = createRouter({
       component: ProductUpsert,
     },
     {
+      path: '/product-upsert',
+      name: APP_ROUTE_NAMES.PRODUCT_UPSERT,
+      component: ProductUpsert,
+    },
+    {
       path: '/contact',
       name: APP_ROUTE_NAMES.CONTACT,
       component: ContactUS,

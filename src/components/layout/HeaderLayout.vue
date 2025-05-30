@@ -36,6 +36,11 @@
               >Product</router-link
             >
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.PRODUCT_CREATE }"
+              >Add Product</router-link
+            >
+          </li>
 
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }"

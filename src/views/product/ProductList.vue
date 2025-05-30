@@ -13,10 +13,13 @@
           <h1 class="text-secondary">Products</h1>
           <p class="mb-0 text-muted small">Manage your product listings</p>
         </div>
-        <a href="#" class="btn btn-success btn-sm gap-2 rounded-1 px-4 py-2">
+        <router-link
+          :to="{ name: APP_ROUTE_NAMES.PRODUCT_CREATE }"
+          class="btn btn-success btn-sm gap-2 rounded-1 px-4 py-2"
+        >
           <i class="bi bi-plus-square"></i> &nbsp;
           <span>Add Product</span>
-        </a>
+        </router-link>
       </div>
 
       <div class="card-body p-3">
@@ -87,12 +90,15 @@
                 <td class="pe-3 text-end">
                   <button
                     class="btn btn-sm btn-outline-secondary m-2"
-                    @click="handleEdit(product.id)"
+                    @click="handleEditProduct(product.id)"
                   >
                     <i class="bi bi-pencil-fill"></i> Edit
                   </button>
 
-                  <button class="btn btn-sm btn-outline-danger" @click="handleDelete(product.id)">
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    @click="handleDeleteProduct(product.id)"
+                  >
                     <i class="bi bi-trash3-fill"></i> Delete
                   </button>
                 </td>
@@ -137,19 +143,16 @@ const fetchProducts = async () => {
   }
 }
 
-const handleDelete = async (productId) => {
+const handleDeleteProduct = async (productId) => {
   try {
     const result = await showConfirmation('Are you sure you want to delete this product?')
-
     console.log('isConfirmed: ', result.isConfirmed)
 
     if (result.isConfirmed) {
       isLoading.value = true
-
       await productService.deleteProduct(productId)
       await showSuccess(`Product deleted successfully`)
       fetchProducts()
-
       isLoading.value = false
     }
   } catch (error) {
@@ -160,7 +163,11 @@ const handleDelete = async (productId) => {
   }
 }
 
-const handleEdit = (productId) => {
+const handleEditProduct = (productId) => {
   router.push({ name: APP_ROUTE_NAMES.PRODUCT_UPDATE, params: { id: productId } })
+}
+
+const handleAddProduct = () => {
+  router.push({ name: APP_ROUTE_NAMES.PRODUCT_CREATE })
 }
 </script>

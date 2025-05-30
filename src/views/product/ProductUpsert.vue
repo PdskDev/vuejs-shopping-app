@@ -107,6 +107,9 @@
 import { reactive, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
+import { useSweetAlert } from '@/utility/useSweetAlert'
+
+const { showSuccess, showError, showConfirmation } = useSweetAlert()
 
 const router = useRouter()
 const route = useRoute()
@@ -172,6 +175,8 @@ async function handleSubmit() {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 3000))
+
+      showSuccess('Product created successfully')
 
       console.log('productData: ', productData)
       //router.push({ name: 'product-list' }

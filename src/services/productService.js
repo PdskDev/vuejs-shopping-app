@@ -1,6 +1,8 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
 
-import { appFirebaseDb } from '../utility/firebaseConfig'
+import firebaseConfig from '../utility/firebaseConfig'
+
+const { appFirebaseDb } = firebaseConfig
 
 const productsCollection = collection(appFirebaseDb, 'products')
 

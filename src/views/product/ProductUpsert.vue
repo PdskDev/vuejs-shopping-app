@@ -105,14 +105,17 @@
 </template>
 <script setup>
 import { reactive, ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
 import { useSweetAlert } from '@/utility/useSweetAlert'
+import productService from '@/services/productService'
+import { APP_ROUTE_NAMES } from '@/constants/routeNames'
+
+const { addProduct } = productService
 
 const { showSuccess, showError, showConfirmation } = useSweetAlert()
 
 const router = useRouter()
-const route = useRoute()
 
 const isLoading = ref(false)
 const errorList = reactive([])
@@ -170,16 +173,20 @@ async function handleSubmit() {
         price: Number(productObject.price),
         salePrice: productObject.salePrice ? Number(productObject.salePrice) : null,
         tags:
-          !productObject.tags === '' ? productObject.tags.split(',').map((tag) => tag.trim()) : [],
+          productObject.tags.length > 0
+            ? productObject.tags.split(',').map((tag) => tag.trim())
+            : [],
         bestSeller: Boolean(productObject.isBestseller),
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 3000))
+      const productCreated = await addProduct(productData)
 
       showSuccess('Product created successfully')
 
       console.log('productData: ', productData)
-      //router.push({ name: 'product-list' }
+
+      console.log('product created: ', productCreated)
+      router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST })
     }
   } catch (error) {
     console.log('error: ', error)

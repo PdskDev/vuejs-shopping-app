@@ -166,8 +166,4 @@ const handleDeleteProduct = async (productId) => {
 const handleEditProduct = (productId) => {
   router.push({ name: APP_ROUTE_NAMES.PRODUCT_UPDATE, params: { id: productId } })
 }
-
-const handleAddProduct = () => {
-  router.push({ name: APP_ROUTE_NAMES.PRODUCT_CREATE })
-}
 </script>

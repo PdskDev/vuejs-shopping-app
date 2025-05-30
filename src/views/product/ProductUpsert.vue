@@ -110,7 +110,7 @@
   </div>
 </template>
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
 import { useSweetAlert } from '@/utility/useSweetAlert'
@@ -129,6 +129,10 @@ const categories = ref(PRODUCT_CATEGORIES)
 const productIdForUpdate = route.params.id
 
 const actionTitle = productIdForUpdate ? 'Update' : 'Create'
+
+onMounted(() => {
+  getProductById(productIdForUpdate)
+})
 
 const productObject = reactive({
   name: '',
@@ -156,8 +160,8 @@ function validateForm() {
     errorList.push('Description is required')
   }
 
-  if (productObject.description.length < 20) {
-    errorList.push('Description must be at least 20 characters long')
+  if (productObject.description.length < 10) {
+    errorList.push('Description must be at least 10 characters long')
   }
 
   if (!productObject.price) {
@@ -200,6 +204,26 @@ async function handleSubmit() {
     console.log('error: ', error)
   } finally {
     isLoading.value = false
+  }
+}
+
+const getProductById = async (productId) => {
+  console.log('productId: ', productId)
+
+  if (!productId) return
+  if (productId) {
+    try {
+      isLoading.value = true
+      const returnedProduct = await productService.getProductById(productId)
+      Object.assign(productObject, { ...returnedProduct, tags: returnedProduct.tags.join(', ') })
+      isLoading.value = false
+      console.log('fetch productToUpdate: ', returnedProduct)
+    } catch (error) {
+      isLoading.value = false
+      console.log('error: ', error)
+    } finally {
+      isLoading.value = false
+    }
   }
 }
 </script>

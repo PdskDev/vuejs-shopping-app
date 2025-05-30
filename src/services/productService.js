@@ -17,7 +17,7 @@ const getProductById = async (id) => {
   const docRef = doc(productsCollection, id)
   const productSnapshot = await getDoc(docRef)
   const product = { id: productSnapshot.id, ...productSnapshot.data() }
-  console.log('product: ', product)
+  console.log('product by id: ', product)
   return product
 }
 

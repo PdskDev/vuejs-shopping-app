@@ -73,7 +73,9 @@
           <div class="mt-3">
             <label class="text-muted">Category</label>
             <select class="form-select" v-model="productObject.category" aria-label="Category">
-              <option key="option" value="option"></option>
+              <option v-for="category in categories" :key="category" :value="category">
+                {{ category }}
+              </option>
             </select>
           </div>
           <div class="mb-3">
@@ -104,12 +106,15 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
 
 const router = useRouter()
 const route = useRoute()
 
 const isLoading = ref(false)
 const errorList = reactive([])
+
+const categories = ref(PRODUCT_CATEGORIES)
 
 const productObject = reactive({
   name: '',
@@ -122,36 +127,39 @@ const productObject = reactive({
   image: '',
 })
 
+function validateForm() {
+  errorList.length = 0
+
+  if (!productObject.name) {
+    errorList.push('Name is required')
+  }
+
+  if (productObject.name.length < 3) {
+    errorList.push('Name must be at least 3 characters long')
+  }
+
+  if (!productObject.description) {
+    errorList.push('Description is required')
+  }
+
+  if (productObject.description.length < 20) {
+    errorList.push('Description must be at least 20 characters long')
+  }
+
+  if (!productObject.price) {
+    errorList.push('Price is required')
+  }
+
+  if (!productObject.category) {
+    errorList.push('Category is required')
+  }
+}
+
 async function handleSubmit() {
   try {
     isLoading.value = true
 
-    //validations
-    errorList.length = 0
-
-    if (!productObject.name) {
-      errorList.push('Name is required')
-    }
-
-    if (productObject.name.length < 3) {
-      errorList.push('Name must be at least 3 characters long')
-    }
-
-    if (!productObject.description) {
-      errorList.push('Description is required')
-    }
-
-    if (productObject.description.length < 20) {
-      errorList.push('Description must be at least 20 characters long')
-    }
-
-    if (!productObject.price) {
-      errorList.push('Price is required')
-    }
-
-    /* if (!productObject.category) {
-      errorList.push('Category is required')
-    } */
+    validateForm()
 
     if (!errorList.length) {
       const productData = {

@@ -111,9 +111,7 @@ import { useSweetAlert } from '@/utility/useSweetAlert'
 import productService from '@/services/productService'
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 
-const { addProduct } = productService
-
-const { showSuccess, showError, showConfirmation } = useSweetAlert()
+const { showSuccess } = useSweetAlert()
 
 const router = useRouter()
 
@@ -179,7 +177,7 @@ async function handleSubmit() {
         bestSeller: Boolean(productObject.isBestseller),
       }
 
-      const productCreated = await addProduct(productData)
+      const productCreated = await productService.addProduct(productData)
 
       showSuccess('Product created successfully')
 

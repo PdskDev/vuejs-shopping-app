@@ -8,7 +8,7 @@ const productsCollection = collection(appFirebaseDb, 'products')
 
 const getProducts = async () => {
   const productsSnapshot = await getDocs(productsCollection)
-  const products = productsSnapshot.docs.map((doc) => doc.data())
+  const products = productsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
   console.log('products: ', products)
   return products
 }

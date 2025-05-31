@@ -3,7 +3,7 @@ export const uploadToCloudinary = async (file) => {
   formData.append('file', file)
   formData.append('upload_preset', 'vuejs-shop-app')
 
-  const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dw0redgty/image/upload'
+  const CLOUDINARY_URL = process.env.CLOUDINARY_URL
 
   try {
     const response = await fetch(CLOUDINARY_URL, {

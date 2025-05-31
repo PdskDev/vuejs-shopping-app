@@ -5,4 +5,5 @@ export const AUTH_ERROR_MESSAGES = {
   'auth/weak-password': 'Weak password',
   'auth/email-already-in-use': 'Email already in use',
   'auth/network-request-failed': 'Network request failed',
+  'auth/invalid-credential': 'Invalid credential',
 }

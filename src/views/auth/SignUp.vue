@@ -106,9 +106,9 @@ const handleSignUp = async () => {
         showSuccess('You have been successfully registered!')
         router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST })
       }
-    } catch (err) {
-      errorFireBase.value = convertAuthErrorMessage(err.message)
-      console.log('error', err)
+    } catch (exception) {
+      errorFireBase.value = convertAuthErrorMessage(exception.message)
+      console.log('error', exception)
       showError(errorFireBase.value)
     }
   }

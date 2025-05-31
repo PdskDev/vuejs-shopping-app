@@ -51,7 +51,7 @@
 import { reactive, ref } from 'vue'
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { useRouter } from 'vue-router'
-import { useSweetAlert } from '@/utility/useSweetAlert'
+import { useSweetAlert } from '@/composibles/useSweetAlert'
 import { useAuthStore } from '@/stores/authStore'
 import { AUTH_ERROR_MESSAGES } from '@/constants/errorMessages'
 

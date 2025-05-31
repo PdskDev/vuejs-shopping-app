@@ -122,7 +122,7 @@
 import { reactive, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
-import { useSweetAlert } from '@/utility/useSweetAlert'
+import { useSweetAlert } from '@/composibles/useSweetAlert'
 import productService from '@/services/productService'
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { uploadToCloudinary } from '@/utility/cloudinary'

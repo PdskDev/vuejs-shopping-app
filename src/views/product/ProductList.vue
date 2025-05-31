@@ -114,7 +114,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import productService from '@/services/productService'
-import { useSweetAlert } from '@/utility/useSweetAlert'
+import { useSweetAlert } from '@/composibles/useSweetAlert'
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 
 const { showError, showConfirmation, showSuccess } = useSweetAlert()

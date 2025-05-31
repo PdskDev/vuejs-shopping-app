@@ -26,8 +26,11 @@
                   v-model.trim="formSignUp.password"
                 />
               </div>
-              <button type="submit" class="btn btn-success w-100" :disabled="isLoading">
-                <span class="spinner-border spinner-border-sm me-2" v-if="isLoading"></span>
+              <button type="submit" class="btn btn-success w-100" :disabled="authStore.isLoading">
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  v-if="authStore.isLoading"
+                ></span>
                 Create Account
               </button>
               <div class="alert alert-danger mt-3 mb-0" v-if="errorFireBase">
@@ -57,7 +60,6 @@ const { showSuccess, showError } = useSweetAlert()
 
 const authStore = useAuthStore()
 
-const isLoading = ref(false)
 const errorFireBase = ref('')
 const errorList = reactive([])
 const formSignUp = reactive({
@@ -98,22 +100,16 @@ const handleSignUp = async () => {
     try {
       console.log('userSignUpObject', formSignUp)
       errorFireBase.value = ''
-      isLoading.value = authStore.isLoading
 
       if (formSignUp.email && formSignUp.password) {
-        isLoading.value = authStore.isLoading
         await authStore.signUpUser(formSignUp.email, formSignUp.password)
-        isLoading.value = authStore.isLoading
         showSuccess('You have been successfully registered!')
         router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST })
       }
     } catch (err) {
-      isLoading.value = false
       errorFireBase.value = convertAuthErrorMessage(err.message)
       console.log('error', err)
-      showError(err.message)
-    } finally {
-      isLoading.value = false
+      showError(errorFireBase.value)
     }
   }
 }

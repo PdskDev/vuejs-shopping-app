@@ -1,3 +1,4 @@
+import { ROLE_ADMIN, ROLE_USER } from '@/constants/productConstants'
 import { collection, doc, setDoc } from 'firebase/firestore'
 
 import { createUserWithEmailAndPassword } from 'firebase/auth'
@@ -13,13 +14,24 @@ export const useAuthStore = defineStore('authStore', () => {
   const user = ref(null)
   const error = ref(null)
   const isLoading = ref(false)
+  const role = ref(null)
 
   const signUpUser = async (email, password) => {
     isLoading.value = true
 
     try {
       const userCredentials = await createUserWithEmailAndPassword(appFireBaseAuth, email, password)
+
+      const userInfo = await setDoc(doc(appFirebaseDb, 'users', userCredentials.user.uid), {
+        email: userCredentials.user.email,
+        role: ROLE_USER,
+        createdAt: new Date().toISOString(),
+      })
+
+      console.log('userInfo: ', userInfo)
+
       user.value = userCredentials.user
+      role.value = ROLE_USER
       error.value = null
     } catch (exception) {
       isLoading.value = false

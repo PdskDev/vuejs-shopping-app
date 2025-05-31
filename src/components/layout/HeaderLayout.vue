@@ -88,11 +88,9 @@
 </template>
 <script setup>
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
-import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/themeStore'
 
 const themeStore = useThemeStore()
-const router = useRouter()
 </script>
 <style scoped>
 .sr-only {

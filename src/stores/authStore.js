@@ -20,15 +20,14 @@ export const useAuthStore = defineStore('authStore', () => {
   const error = ref(null)
   const isLoading = ref(false)
   const role = ref(null)
+  const sessionInitialized = ref(false)
 
-  const isSessionInitialized = ref(false)
-
-  const initializeSession = async () => {
-    onAuthStateChanged(appFireBaseAuth, async (user) => {
-      if (user) {
-        user.value = user
+  const initializeAuth = async () => {
+    onAuthStateChanged(appFireBaseAuth, async (firebaseUser) => {
+      if (firebaseUser) {
+        user.value = firebaseUser
         //role.value = ROLE_USER
-        isSessionInitialized.value = true
+        sessionInitialized.value = true
       } else {
         clearUser()
       }
@@ -115,16 +114,16 @@ export const useAuthStore = defineStore('authStore', () => {
     role,
     error,
     isLoading,
-    isSessionInitialized,
+    sessionInitialized,
 
     //getters
     isAdmin,
     isAuthenticated,
-    initializeSession,
 
     //actions
     signUpUser,
     signInUser,
     signOutUser,
+    initializeAuth,
   }
 })

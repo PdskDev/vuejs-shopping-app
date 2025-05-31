@@ -30,7 +30,11 @@
               ${{ product.salePrice.toFixed(0) }} SALE!</span
             >
           </div>
-          <button class="btn btn-success fs-6 py-2 px-4 btn-sm" data-bs-toggle="modal">
+          <button
+            class="btn btn-success fs-6 py-2 px-4 btn-sm"
+            data-bs-toggle="modal"
+            :data-bs-target="`#product-detail-modal-${product.id}`"
+          >
             <i class="bi bi-card-list"></i> View Details
           </button>
         </div>
@@ -42,9 +46,11 @@
         </div>
       </div>
     </div>
+    <ProductDetail :product="product" />
   </div>
 </template>
 <script setup>
+import ProductDetail from './ProductDetail.vue'
 const props = defineProps({
   product: {
     type: Object,

@@ -22,13 +22,11 @@ export const useAuthStore = defineStore('authStore', () => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(appFireBaseAuth, email, password)
 
-      const userInfo = await setDoc(doc(appFirebaseDb, 'users', userCredentials.user.uid), {
+      await setDoc(doc(userCollection, userCredentials.user.uid), {
         email: userCredentials.user.email,
         role: ROLE_USER,
         createdAt: new Date().toISOString(),
       })
-
-      console.log('userInfo: ', userInfo)
 
       user.value = userCredentials.user
       role.value = ROLE_USER

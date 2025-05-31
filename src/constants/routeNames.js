@@ -2,6 +2,7 @@ export const APP_ROUTE_NAMES = Object.freeze({
   HOME: 'home',
   SIGN_IN: 'sign-in',
   SIGN_UP: 'sign-up',
+  LOG_OUT: 'log-out',
   PRODUCT_LIST: 'product-list',
   PRODUCT_CREATE: 'product-create',
   PRODUCT_UPDATE: 'product-update',

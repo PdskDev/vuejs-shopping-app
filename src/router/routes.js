@@ -29,6 +29,11 @@ const router = createRouter({
       component: SignUp,
     },
     {
+      path: '/log-out',
+      name: APP_ROUTE_NAMES.LOG_OUT,
+      component: HomePage,
+    },
+    {
       path: '/product-list',
       name: APP_ROUTE_NAMES.PRODUCT_LIST,
       component: ProductList,

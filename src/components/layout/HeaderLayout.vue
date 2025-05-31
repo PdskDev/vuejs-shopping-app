@@ -36,7 +36,7 @@
               >Product</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="authStore.isAdmin">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.PRODUCT_CREATE }"
               >Add Product</router-link
             >
@@ -48,12 +48,23 @@
           </li>
         </ul>
         <ul class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!authStore.isAuthenticated">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }"
               >Sign In</router-link
             >
           </li>
-          <li class="nav-item">
+
+          <li class="nav-item" v-if="authStore.isAuthenticated">
+            <button
+              class="nav-link"
+              type="button"
+              title="Log Out"
+              @click="[authStore.signOutUser(), router.push({ name: APP_ROUTE_NAMES.HOME })]"
+            >
+              <i class="bi bi-box-arrow-right"><span class="sr-only">Log Out</span></i>
+            </button>
+          </li>
+          <li class="nav-item" v-if="!authStore.isAuthenticated">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_UP }"
               >Sign Up</router-link
             >
@@ -89,6 +100,12 @@
 <script setup>
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { useThemeStore } from '@/stores/themeStore'
+import { useAuthStore } from '@/stores/authStore'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const authStore = useAuthStore()
 
 const themeStore = useThemeStore()
 </script>

@@ -1,6 +1,6 @@
 <template>
   <!-- Hero Section -->
-  <section class="hero-section">
+  <section class="hero-section text-white py-5">
     <div class="container text-center">
       <h1 class="display-4 fw-bold">Get In Touch</h1>
       <p class="lead">We'd love to hear from you. Here's how you can reach us.</p>
@@ -114,7 +114,7 @@
 </template>
 <style scoped>
 .hero-section {
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  background: linear-gradient(to right, #02620f, #188932);
   color: white;
   padding: 80px 0;
 }

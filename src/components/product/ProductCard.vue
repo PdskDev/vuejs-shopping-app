@@ -3,12 +3,14 @@
     <div class="card h-100 border">
       <div class="position-relative">
         <img
-          :src="`https://placehold.co/600x400`"
+          :src="product.image || `https://placehold.co/600x400`"
+          :alt="product.name"
           class="card-img-top object-fit-cover"
           style="height: 200px"
         />
         <div
           class="position-absolute top-0 start-0 m-2 px-2 py-1 bg-success text-white rounded-pill text-sm"
+          v-if="product.isBestseller"
         >
           <i class="bi bi-star-fill me-1"></i>
           Bestseller

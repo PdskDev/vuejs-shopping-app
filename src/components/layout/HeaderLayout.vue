@@ -36,7 +36,7 @@
               >Product</router-link
             >
           </li>
-          <li class="nav-item" v-if="authStore.isAdmin">
+          <li class="nav-item" v-if="authStore.isAuthenticated && authStore.isAdmin">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.PRODUCT_CREATE }"
               >Add Product</router-link
             >
@@ -48,6 +48,7 @@
           </li>
         </ul>
         <ul class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-link" v-if="authStore.isAuthenticated">Welcome {{ userLabel() }} !</li>
           <li class="nav-item" v-if="!authStore.isAuthenticated">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }"
               >Sign In</router-link
@@ -108,6 +109,11 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const themeStore = useThemeStore()
+
+const userLabel = () => {
+  const userEmail = authStore.user?.email.split('@')
+  return userEmail[0].toUpperCase()
+}
 </script>
 <style scoped>
 .sr-only {

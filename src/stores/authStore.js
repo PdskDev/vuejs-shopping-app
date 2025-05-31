@@ -1,5 +1,5 @@
 import { ROLE_ADMIN, ROLE_USER } from '@/constants/productConstants'
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
 import { computed, ref } from 'vue'
 import {
   createUserWithEmailAndPassword,
@@ -26,7 +26,7 @@ export const useAuthStore = defineStore('authStore', () => {
     onAuthStateChanged(appFireBaseAuth, async (firebaseUser) => {
       if (firebaseUser) {
         user.value = firebaseUser
-        //role.value = ROLE_USER
+        await fetchUserRole(firebaseUser.uid)
         sessionInitialized.value = true
       } else {
         clearUser()
@@ -70,6 +70,11 @@ export const useAuthStore = defineStore('authStore', () => {
     role.value = null
   }
 
+  const fetchUserRole = async (uid) => {
+    const userInfo = await getDoc(doc(userCollection, uid))
+    role.value = userInfo.exists() ? userInfo.data().role : ''
+  }
+
   const signInUser = async (email, password) => {
     isLoading.value = true
 
@@ -81,7 +86,7 @@ export const useAuthStore = defineStore('authStore', () => {
       )
 
       user.value = userSignInCredentials.user
-      role.value = ROLE_USER
+
       error.value = null
     } catch (exception) {
       isLoading.value = false

@@ -37,7 +37,18 @@
       <div class="row g-3 mb-4 align-items-center">
         <div class="col-md-auto">
           <div class="d-flex flex-wrap gap-3">
-            <button class="btn btn-succcess px-4 py-2">CATEGORY</button>
+            <button
+              class="btn px-4 py-2"
+              :class="{
+                'btn-success text-white': category === selectedCategory,
+                'btn-outline-success': category !== selectedCategory,
+              }"
+              @click="selectedCategory = category"
+              v-for="(category, index) in categoryList"
+              :key="index"
+            >
+              {{ category }}
+            </button>
           </div>
         </div>
         <div class="col-md-auto ms-md-auto">
@@ -63,24 +74,30 @@
       </div>
 
       <div>
-        <div class="row g-4">
+        <div class="row g-4 pb-4" v-if="filterProductsByCategory.length > 0">
           <ProductCard
-            v-for="product in products"
+            v-for="product in filterProductsByCategory"
             :key="product.id"
             :product="product"
           ></ProductCard>
+        </div>
+        <div v-else>
+          <h3 class="text-center">No product found</h3>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import productService from '@/services/productService'
 import ProductCard from '@/components/product/ProductCard.vue'
+import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
 
 const products = ref([])
 const isLoading = ref(false)
+const selectedCategory = ref('ALL')
+const categoryList = ref(['ALL', ...PRODUCT_CATEGORIES])
 
 onMounted(async () => {
   fetchProducts()
@@ -100,4 +117,15 @@ const fetchProducts = async () => {
     isLoading.value = false
   }
 }
+
+const filterProductsByCategory = computed(() => {
+  let tempsProductsFiltered =
+    selectedCategory.value === 'ALL'
+      ? [...products.value]
+      : products.value.filter(
+          (item) => item.category.toUpperCase() === selectedCategory.value.toUpperCase(),
+        )
+
+  return tempsProductsFiltered
+})
 </script>

@@ -85,6 +85,7 @@
 import { useRouter } from 'vue-router'
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   product: {
     type: Object,

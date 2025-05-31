@@ -51,6 +51,7 @@
 </template>
 <script setup>
 import ProductDetail from './ProductDetail.vue'
+// eslint-disable-next-line no-unused-vars
 const props = defineProps({
   product: {
     type: Object,

@@ -1,4 +1,4 @@
-export const PRODUCT_CATEGORIES = ['Vegetable', 'Drink', 'Bakery', 'Meat', 'Fruit']
+export const PRODUCT_CATEGORIES = ['Vegetable', 'Drink', 'Bakery', 'Milk', 'Fruit', 'Meat']
 
 export const SORT_PRICE_LOW_HIGH = 'PRICE LOW-HIGH'
 export const SORT_PRICE_HIGH_LOW = 'PRICE HIGH-LOW'

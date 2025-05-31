@@ -41,7 +41,13 @@
               >Add Product</router-link
             >
           </li>
-
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.CONTACT_US }"
+              >Contact Us</router-link
+            >
+          </li>
+        </ul>
+        <ul class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.SIGN_IN }"
               >Sign In</router-link
@@ -52,13 +58,6 @@
               >Sign Up</router-link
             >
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: APP_ROUTE_NAMES.CONTACT_US }"
-              >Contact Us</router-link
-            >
-          </li>
-        </ul>
-        <ul class="d-flex navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"

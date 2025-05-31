@@ -21,6 +21,7 @@
             </h1>
             <div class="input-group mt-3 mx-auto shadow-lg rounded-4" style="max-width: 700px">
               <input
+                v-model.trim="searchValue"
                 type="text"
                 class="form-control border-0 py-3 px-4 fs-5"
                 placeholder="Search your favorite product..."
@@ -59,13 +60,16 @@
               data-bs-toggle="dropdown"
             >
               <i class="bi bi-sort-down"></i>
-              <span class="text-capitalize">SORT</span>
+              <span class="text-capitalize">{{ selectedSortOption }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li>
-                <button class="dropdown-item py-2 d-flex align-items-center gap-2">
+              <li v-for="(sort, index) in SORT_OPTIONS" :key="index">
+                <button
+                  class="dropdown-item py-2 d-flex align-items-center gap-2"
+                  @click="selectedSortOption = sort"
+                >
                   <i class="bi"></i>
-                  <span class="text-capitalize"> SORT OPTIONS </span>
+                  <span class="text-capitalize"> {{ sort }} </span>
                 </button>
               </li>
             </ul>
@@ -92,12 +96,21 @@
 import { computed, onMounted, ref } from 'vue'
 import productService from '@/services/productService'
 import ProductCard from '@/components/product/ProductCard.vue'
-import { PRODUCT_CATEGORIES } from '@/constants/productConstants'
+import {
+  PRODUCT_CATEGORIES,
+  SORT_NAME_A_Z,
+  SORT_NAME_Z_A,
+  SORT_PRICE_LOW_HIGH,
+  SORT_PRICE_HIGH_LOW,
+  SORT_OPTIONS,
+} from '@/constants/productConstants'
 
 const products = ref([])
 const isLoading = ref(false)
+const searchValue = ref('')
 const selectedCategory = ref('ALL')
 const categoryList = ref(['ALL', ...PRODUCT_CATEGORIES])
+const selectedSortOption = ref(SORT_OPTIONS[0])
 
 onMounted(async () => {
   fetchProducts()
@@ -123,8 +136,24 @@ const filterProductsByCategory = computed(() => {
     selectedCategory.value === 'ALL'
       ? [...products.value]
       : products.value.filter(
-          (item) => item.category.toUpperCase() === selectedCategory.value.toUpperCase(),
+          (item) => item.category.toLowerCase() === selectedCategory.value.toLowerCase(),
         )
+
+  if (searchValue.value) {
+    tempsProductsFiltered = tempsProductsFiltered.filter((item) =>
+      item.name.toLowerCase().includes(searchValue.value.toLowerCase()),
+    )
+  }
+
+  if (selectedSortOption.value === SORT_NAME_A_Z) {
+    tempsProductsFiltered = tempsProductsFiltered.sort((a, b) => a.name.localeCompare(b.name))
+  } else if (selectedSortOption.value === SORT_NAME_Z_A) {
+    tempsProductsFiltered = tempsProductsFiltered.sort((a, b) => b.name.localeCompare(a.name))
+  } else if (selectedSortOption.value === SORT_PRICE_LOW_HIGH) {
+    tempsProductsFiltered = tempsProductsFiltered.sort((a, b) => a.salePrice - b.salePrice)
+  } else if (selectedSortOption.value === SORT_PRICE_HIGH_LOW) {
+    tempsProductsFiltered = tempsProductsFiltered.sort((a, b) => b.salePrice - a.salePrice)
+  }
 
   return tempsProductsFiltered
 })

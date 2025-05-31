@@ -21,11 +21,14 @@
         <p class="card-text text-truncate-lines-2 mb-3">{{ product.description }}</p>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="fw-bold me-2 fs-5 text-muted">
-            <span>
-              <span class="text-decoration-line-through"> ${{ product.salePrice }} </span>
-              <span class="text-danger px-1"> SALE</span>
-            </span>
-            <span> ${{ product.price }} </span>
+            <span
+              class="text-success"
+              :style="{ textDecoration: product.salePrice ? 'line-through' : 'none' }"
+              >${{ product.price.toFixed(0) }}</span
+            >
+            <span v-if="product.salePrice" class="px-2 text-danger">
+              ${{ product.salePrice.toFixed(0) }} SALE!</span
+            >
           </div>
           <button class="btn btn-success fs-6 py-2 px-4 btn-sm" data-bs-toggle="modal">
             <i class="bi bi-card-list"></i> View Details
@@ -33,7 +36,9 @@
         </div>
         <div class="d-flex flex-wrap gap-2">
           <span class="badge bg-secondary p-2">{{ product.category }}</span>
-          <span class="badge bg-secondary p-2"> {{ product.tags.join(', ') }} </span>
+          <span class="badge bg-secondary p-2" v-for="(tag, index) in product.tags" :key="index">
+            {{ tag }}
+          </span>
         </div>
       </div>
     </div>
